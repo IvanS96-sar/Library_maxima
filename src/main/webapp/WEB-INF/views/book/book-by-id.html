@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book by Id</title>
+</head>
+<body>
+<p th:text="${bookById.getName() + ', ' + bookById.getAuthor() + ', ' + bookById.getYear()}"></p>
+
+<div th:if="${allPerson}">
+    </hr>
+    <p>Book is free. Who should give the book ?</p>
+    <form th:method="POST" th:action="@{/book/{id}/give(id=${bookById.getIdBook()})}">
+        <label for="select">Select person</label>
+        <select id="select" th:object="${person}" th:field="*{idPerson}" >
+            <option th:each="person : ${allPerson}" th:value="${person.getIdPerson()}" th:text="${person.getFullName()}">
+            </option>
+        </select>
+        <button type="submit" value="Give Book">Give book</button>
+    </form>
+</div>
+
+<div th:if="${ownerById}">
+    <p>Book now is: <span th:text="${ownerById.getFullName()}"></span></p>
+    <form th:method="POST" th:action="@{/book/{id}/return(id=${bookById.getIdBook()})}">
+        <input type="submit" value="Return Book"/>
+    </form>
+</div>
+
+<hr/>
+<a th:href="@{/book/{id}/edit(id=${bookById.getIdBook()})}">Edit this book</a>
+<br/>
+<form th:method="POST" th:action="@{/books/{id}/delete(id=${bookById.getIdBook()})}">
+    <input type="submit" value="delete book"></form>
+</body>
+</html>
